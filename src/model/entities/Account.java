@@ -6,7 +6,7 @@ public class Account {
 	private String holder;
 	private Double balance;
 	private Double withdrawLimit;
-	
+
 	public Account() {
 	}
 
@@ -44,12 +44,23 @@ public class Account {
 	public void setWithdrawLimit(Double withdrawLimit) {
 		this.withdrawLimit = withdrawLimit;
 	}
-	
+
 	public void deposit(double amount) {
 		balance += amount;
 	}
-	
+
 	public void withdraw(double amount) {
+
 		balance -= amount;
+	}
+
+	public String validateWithdraw(double amount) {
+		if (amount > withdrawLimit) {
+			return "The amount exceeds withdraw limit";
+		}
+		if (amount > balance) {
+			return "Not enough balance";
+		}
+		return null;
 	}
 }
