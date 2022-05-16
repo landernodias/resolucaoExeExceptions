@@ -1,9 +1,11 @@
 package application;
 
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
 import model.entities.Account;
+import model.excepitions.BusinessException;
 
 public class Program {
 
@@ -28,15 +30,17 @@ public class Program {
 		System.out.println();
 		System.out.print("Enter amount for withdraw: ");
 		double amount = sc.nextDouble();
-		String error = acc.validateWithdraw(amount);
-		if (error != null) {
-			System.out.println("withdraw error: " + error);
-		} else {
+		try {
 			acc.withdraw(amount);
-			System.out.printf("Novo saldo: %.2f", acc.getBalance());			
-		}
+			System.out.printf("Novo saldo: %.2f", acc.getBalance());
+		} catch (BusinessException e) {
+			System.out.println("Withdraw error: " + e.getMessage());
+		} catch(RuntimeException e){
+			System.out.println("unexpected error!");
+		}finally {
+			sc.close();
 
-		sc.close();
+		}
 	}
 
 }
